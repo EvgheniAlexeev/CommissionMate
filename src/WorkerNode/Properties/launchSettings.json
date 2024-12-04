@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "CommissionMate": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 5001",
+      "launchBrowser": false
+    }
+  }
+}
