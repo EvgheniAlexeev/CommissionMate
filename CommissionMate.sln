@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35431.28
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkerNode", "src\WorkerNode\WorkerNode.csproj", "{09A7A15C-0F59-432E-A9A7-2BBBE2FE034E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommissionMate", "src\CommissionMate\CommissionMate.csproj", "{22EACBE7-E578-4D18-97D7-513C6C3F0701}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommissionMate", "src\CommissionMate\CommissionMate.csproj", "{22EACBE7-E578-4D18-97D7-513C6C3F0701}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

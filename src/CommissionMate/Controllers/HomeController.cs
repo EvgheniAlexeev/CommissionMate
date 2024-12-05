@@ -20,9 +20,8 @@ namespace CommissionMate.Controllers
         private readonly HttpClient _httpClient;
 
         public HomeController(ILogger<HomeController> logger, 
-            GraphServiceClient graphServiceClient,
             ITokenAcquisition tokenAcquisition, 
-            HttpClient httpClient)
+            HttpClient httpClient, GraphServiceClient graphServiceClient)
         {
             _logger = logger;
             _graphServiceClient = graphServiceClient;
@@ -30,6 +29,7 @@ namespace CommissionMate.Controllers
             _httpClient = httpClient;
         }
 
+        [AuthorizeForScopes(ScopeKeySection = "MicrosoftGraph:Scopes")]
         public async Task<IActionResult> Index()
         {
             var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new[] { "https://amdaris.com/rewards.system/user_impersonation" });
