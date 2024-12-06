@@ -56,7 +56,7 @@ namespace CommissionMate.Controllers
 
             var response2 = await _httpClient.GetAsync("http://localhost:7071/api/RunAuthorized");
 
-            ViewData["GraphApiResult"] = string.IsNullOrEmpty(content) ? $" {(int)response.StatusCode} {response.ReasonPhrase}" : content;
+            ViewData["AzFunctionApiResult"] = string.IsNullOrEmpty(content) ? $" {(int)response.StatusCode} {response.ReasonPhrase}" : content;
 
 
             return View();

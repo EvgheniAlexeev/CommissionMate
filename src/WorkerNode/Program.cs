@@ -11,13 +11,13 @@ var host = new HostBuilder()
     {
         worker.UseMiddleware<AuthenticationMiddleware>();
         worker.UseMiddleware<AuthorizationMiddleware>();
-        //worker.UseMiddleware<JwtValidationMiddleware>();
     })
     .ConfigureServices(services =>
     {
+        services.AddApplicationInsightsTelemetryWorkerService();
+        services.ConfigureFunctionsApplicationInsights();
+
         services.AddScoped<IUserRepository, UserRepository>();
-        //services.AddApplicationInsightsTelemetryWorkerService();
-        //services.ConfigureFunctionsApplicationInsights();
     })
     .Build();
 
