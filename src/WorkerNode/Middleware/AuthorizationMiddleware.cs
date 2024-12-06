@@ -33,7 +33,7 @@ namespace IsolatedFunctionAuth.Middleware
             FunctionExecutionDelegate next)
         {
             var principalFeature = context.Features.Get<JwtPrincipalFeature>();
-            if (!AuthorizePrincipal(context, principalFeature.Principal, principalFeature.EncodedRoles, _secretSalt))
+            if (principalFeature != null && !AuthorizePrincipal(context, principalFeature.Principal, principalFeature.EncodedRoles, _secretSalt))
             {
                 context.SetHttpResponseStatusCode(HttpStatusCode.Forbidden);
                 return;
@@ -65,7 +65,7 @@ namespace IsolatedFunctionAuth.Middleware
             var targetMethod = context.GetTargetFunctionMethod();
             var acceptedAppRoles = GetAcceptedAppRoles(targetMethod);
 
-            return payload.Roles.Any(r => acceptedAppRoles.Contains(r));
+            return acceptedAppRoles.Count() == 0 || payload.Roles.Any(r => acceptedAppRoles.Contains(r));
         }
 
         private static List<string> GetAcceptedAppRoles(MethodInfo targetMethod)

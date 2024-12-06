@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace CommissionMate.Controllers
 {
@@ -41,7 +42,7 @@ namespace CommissionMate.Controllers
             var response = await _httpClient.GetAsync("http://localhost:7071/api/Authorize");
 
             var content = await response.Content.ReadAsStringAsync();
-
+            //var result = content == string.Empty ? null :JsonSerializer.Deserialize<OkObjectResult>(content);
             if (response.Headers.TryGetValues("X-User-Roles", out IEnumerable<string> values))
             {
                 _httpClient.DefaultRequestHeaders.Add("X-User-Roles", values.First());

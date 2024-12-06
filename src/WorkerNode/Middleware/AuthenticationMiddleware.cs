@@ -61,6 +61,13 @@ namespace IsolatedFunctionAuth.Middleware
             FunctionContext context,
             FunctionExecutionDelegate next)
         {
+            var request = await context.GetHttpRequestDataAsync();
+            if (request.Url.AbsolutePath.ToLower().Contains("healthcheck"))
+            {
+                await next(context);
+                return;
+            }
+
             if (!TryGetTokenFromHeaders(context, out var token))
             {
                 // Unable to get token from headers
