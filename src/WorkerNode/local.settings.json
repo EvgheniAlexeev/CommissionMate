@@ -83,7 +83,7 @@
   },
   "MessageTypes": {
     "ConnectionIssue": {
-      "Subject": "[{0}] CommisionMate ran into a communication issue on PowerAutomate Interface (GetCommissions)",
+      "Subject": "[{0}] CommisionMate ran into a communication issue on PowerAutomate Interface",
       "From": "admin@insight.com",
       "To": "admin@insight.com",
       "Cc": "",
