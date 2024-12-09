@@ -55,7 +55,7 @@ namespace CommissionMate.Controllers
                 });
             }
 
-            var response2 = await _httpClient.GetAsync("http://localhost:7071/api/RunAuthorized");
+            //var response2 = await _httpClient.GetAsync("http://localhost:7071/api/RunAuthorized");
 
             ViewData["AzFunctionApiResult"] = string.IsNullOrEmpty(content) ? $" {(int)response.StatusCode} {response.ReasonPhrase}" : content;
 

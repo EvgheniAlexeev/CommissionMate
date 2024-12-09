@@ -62,7 +62,8 @@ namespace IsolatedFunctionAuth.Middleware
             FunctionExecutionDelegate next)
         {
             var request = await context.GetHttpRequestDataAsync();
-            if (request.Url.AbsolutePath.ToLower().Contains("healthcheck"))
+            var url = request.Url.AbsolutePath.ToLower();
+            if (url.Contains("healthcheck") || url.EndsWith("swagger/ui") || url.EndsWith("/swagger.json"))
             {
                 await next(context);
                 return;

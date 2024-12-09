@@ -1,25 +1,31 @@
+using Domain.Configurations;
+
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
+
+using System.Net;
+
+using WorkerNode.Services;
 
 namespace WorkerNode
 {
-    public class HealthCheck : BaseFunc
+    public class HealthCheck(ILogger<AuthenticateFunc> logger, IApiClient apiClient) : BaseFunc
     {
-        private readonly ILogger _logger;
-
-        public HealthCheck(ILoggerFactory loggerFactory)
-        {
-            _logger = loggerFactory.CreateLogger<HealthCheck>();
-        }
+        private readonly ILogger _logger = logger;
+        private readonly IApiClient _apiClient = apiClient;
 
         [Function(nameof(HealthCheck))]
-        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
+        [OpenApiOperation(operationId: nameof(HealthCheck), tags: ["Azure Function HealthCheck"])]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/text", bodyType: typeof(string), Description = "The OK response")]
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
         {
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
             string version = fvi.FileVersion;
 
+            var suppliers = await apiClient.GetWeatherForecast();
             return CreateOkTextResponse(req, $"CommissionMate function is working, version: {version}");
         }
     }

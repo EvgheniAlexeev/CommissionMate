@@ -1,0 +1,51 @@
+﻿@model Domain.Models.ConnectionErrorNotification
+
+<html>
+<body>
+    <center>
+        <b>A Communication issue between @Model.SourceAppName and @Model.TargetAppName</b>
+    </center>
+    <br>
+    <center>
+        <b style="color:red">Error details: @Model.Exception.Message, Source: @Model.Exception.Source</b>
+    </center>
+    <br>
+    <table border=1 cellpadding=5 cellspacing=0 width=100% bordercolorlight=#CC9900
+           bordercolordark=#FFFFFF style='font-family:Trebuchet MS; font-size:10px;'>
+        <thead>
+            <tr bgcolor=#CCDEFF>
+                <td align=center>
+                    <b>Property Name</b>
+                </td>
+                <td align=center>
+                    <b>Content</b>
+                </td>
+            </tr>
+        </thead>
+
+        <tr>
+            <td>InnerException</td>
+            <td>@Model.Exception.InnerException</td>
+        </tr>
+        <tr>
+            <td>InnerException.Message</td>
+            <td>@Model.Exception.InnerException?.Message</td>
+        </tr>
+        <tr>
+            <td>StackTrace</td>
+            <td>@Model.Exception.StackTrace</td>
+        </tr>
+        <tr>
+            <td>TargetSite</td>
+            <td>@Model.Exception.TargetSite</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <hr>
+    <font size=2 color=#4D4D4D>
+        <i>This is an automatically generated email - please do not reply to it. If you have any question please contact Service Management Team</i>
+    </font>
+    <br>
+</body>
+</html>
