@@ -69,7 +69,7 @@ namespace CommissionMate.Controllers
                 .GetAccessTokenForUserAsync(["https://amdaris.com/rewards.system/user_impersonation"]);
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            _httpClient.DefaultRequestHeaders.Add("X-User-Roles", Request.Cookies["UserRoles"]);
+            _httpClient.DefaultRequestHeaders.Add("X-User-Roles", Request.Cookies["X-User-Roles"]);
 
 
             var response = await _httpClient.GetAsync("http://localhost:7071/api/RunAuthorized");
