@@ -6,6 +6,6 @@
 
         public string SourceAppName => "CommissionMate Worker";
 
-        public string TargetAppName => $"PowerAutomate Interface - [{methodName}]";
+        public string TargetAppMethodName => methodName;
     }
 }

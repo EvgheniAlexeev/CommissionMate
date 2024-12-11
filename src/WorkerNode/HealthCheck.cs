@@ -1,5 +1,3 @@
-using Domain.Configurations;
-
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
@@ -24,8 +22,8 @@ namespace WorkerNode
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
             string version = fvi.FileVersion;
-
-            var suppliers = await apiClient.GetWeatherForecast();
+            throw new Exception("test");
+            var forecasts = await apiClient.GetWeatherForecast();
             return CreateOkTextResponse(req, $"CommissionMate function is working, version: {version}");
         }
     }

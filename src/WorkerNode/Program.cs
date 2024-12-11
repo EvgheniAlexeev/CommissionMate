@@ -19,10 +19,12 @@ using WorkerNode.Azure.Web;
 using Microsoft.Extensions.Options;
 using WorkerNode.Azure.Models;
 using Microsoft.OpenApi.Models;
+using WorkerNode.Middleware;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(worker =>
     {
+        worker.UseMiddleware<ExceptionHandlingMiddleware>();
         worker.UseMiddleware<AuthenticationMiddleware>();
         worker.UseMiddleware<AuthorizationMiddleware>();
     })

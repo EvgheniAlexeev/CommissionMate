@@ -3,11 +3,11 @@
 <html>
 <body>
     <center>
-        <b>A Communication issue between @Model.SourceAppName and @Model.TargetAppName</b>
+        <b>Something went wrong when @Model.SourceAppName tried to execute @Model.TargetAppMethodName method</b>
     </center>
     <br>
     <center>
-        <b style="color:red">Error details: @Model.Exception.Message, Source: @Model.Exception.Source</b>
+        <b style="color:red">Error message: @Model.Exception.Message, Source: @Model.Exception.Source</b>
     </center>
     <br>
     <table border=1 cellpadding=5 cellspacing=0 width=100% bordercolorlight=#CC9900
