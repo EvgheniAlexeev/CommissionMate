@@ -20,6 +20,8 @@ using Microsoft.Extensions.Options;
 using WorkerNode.Azure.Models;
 using Microsoft.OpenApi.Models;
 using WorkerNode.Middleware;
+using WorkerNode.Extensions;
+using Polly;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(worker =>
@@ -30,6 +32,9 @@ var host = new HostBuilder()
     })
     .ConfigureServices(services =>
     {
+        var httpClient = services.AddHttpClient()
+            .ConfigureHttpClientDefaults(configure => configure.AddPolicyHandler(RetryPolicy.GetRetryPolicy()));
+
         var configuration = new ConfigurationBuilder().AddJsonFile("local.settings.json", optional: false, reloadOnChange: true)
 #if DEBUG
             .AddJsonFile($"local.settings.Development.json", optional: true, reloadOnChange: true)
@@ -54,6 +59,7 @@ var host = new HostBuilder()
                 .EnableTokenAcquisitionToCallDownstreamApi()
                 .AddDownstreamApi(AppConstants.PowerAutomateApiGetCommissions, configuration.GetSection(AppConstants.PowerAutomateApiGetCommissionsSection))
                 .AddDownstreamApi(AppConstants.PowerAutomateApiGetWeatherForecast, configuration.GetSection(AppConstants.PowerAutomateApiGetWeatherForecastSection));
+        
 
 #if DEBUG
         services.AddTransient<ITokenAcquisition, DefaultAzureTokenAcquisition>();
