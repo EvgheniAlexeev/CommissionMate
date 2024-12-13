@@ -58,7 +58,8 @@ var host = new HostBuilder()
         services.AddMicrosoftIdentityWebAppAuthentication(configuration, nameof(AzureAd))
                 .EnableTokenAcquisitionToCallDownstreamApi()
                 .AddDownstreamApi(AppConstants.PowerAutomateApiGetCommissions, configuration.GetSection(AppConstants.PowerAutomateApiGetCommissionsSection))
-                .AddDownstreamApi(AppConstants.PowerAutomateApiGetWeatherForecast, configuration.GetSection(AppConstants.PowerAutomateApiGetWeatherForecastSection));
+                .AddDownstreamApi(AppConstants.PowerAutomateApiGetWeatherForecast, configuration.GetSection(AppConstants.PowerAutomateApiGetWeatherForecastSection))
+                .AddInMemoryTokenCaches();
         
 
 #if DEBUG
