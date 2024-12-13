@@ -22,7 +22,7 @@ namespace WorkerNode
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
             string version = fvi.FileVersion;
-            var forecasts = await apiClient.GetWeatherForecast();
+            //var forecasts = await apiClient.GetWeatherForecast();
             return CreateOkTextResponse(req, $"CommissionMate function is working, version: {version}");
         }
     }

@@ -27,7 +27,7 @@ namespace WorkerNode
             return CreateOkTextResponse(req, "You were successfully athorized!");
         }
 
-        [Authorize(UserRoles = [UserRoles.Admin])]
+        [Authorize(UserRoles = [UserRoles.Sales])]
         [Function(nameof(RunAuthorized))]
         public HttpResponseData RunAuthorized(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequestData req, 

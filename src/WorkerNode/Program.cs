@@ -35,9 +35,9 @@ var host = new HostBuilder()
         var httpClient = services.AddHttpClient()
             .ConfigureHttpClientDefaults(configure => configure.AddPolicyHandler(RetryPolicy.GetRetryPolicy()));
 
-        var configuration = new ConfigurationBuilder().AddJsonFile("local.settings.json", optional: false, reloadOnChange: true)
+        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
 #if DEBUG
-            .AddJsonFile($"local.settings.Development.json", optional: true, reloadOnChange: true)
+            .AddJsonFile($"appsettings.Development.json", optional: true, reloadOnChange: true)
 #endif
             .AddEnvironmentVariables()
             .Build();
