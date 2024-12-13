@@ -60,7 +60,6 @@ var host = new HostBuilder()
                 .AddDownstreamApi(AppConstants.PowerAutomateApiGetCommissions, configuration.GetSection(AppConstants.PowerAutomateApiGetCommissionsSection))
                 .AddDownstreamApi(AppConstants.PowerAutomateApiGetWeatherForecast, configuration.GetSection(AppConstants.PowerAutomateApiGetWeatherForecastSection))
                 .AddInMemoryTokenCaches();
-        
 
 #if DEBUG
         services.AddTransient<ITokenAcquisition, DefaultAzureTokenAcquisition>();
