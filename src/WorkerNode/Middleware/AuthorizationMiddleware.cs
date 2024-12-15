@@ -1,4 +1,6 @@
-﻿using Microsoft.Azure.Functions.Worker;
+﻿using FluentEmail.Core;
+
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Middleware;
 using Microsoft.Extensions.Configuration;
 
@@ -53,6 +55,8 @@ namespace IsolatedFunctionAuth.Middleware
 
             if (isValidHeader && roles != null)
             {
+                var email = principal.FindFirst(ClaimTypes.Name)!.Value;
+                context.Features.Set(new UserContextFeature(email, roles.Roles));
                 // Check user roles
                 return AuthorizeUserPermissions(context, roles);
             }

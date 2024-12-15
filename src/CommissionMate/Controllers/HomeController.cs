@@ -72,7 +72,7 @@ namespace CommissionMate.Controllers
             _httpClient.DefaultRequestHeaders.Add("X-User-Roles", Request.Cookies["X-User-Roles"]);
 
 
-            var response = await _httpClient.GetAsync("http://localhost:7071/api/RunAuthorized");
+            var response = await _httpClient.GetAsync("http://localhost:7071/api/GetCurrentPlan");
 
             return View();
         }

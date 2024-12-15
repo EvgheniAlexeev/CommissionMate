@@ -93,6 +93,7 @@ namespace IsolatedFunctionAuth.Middleware
             {
                 // Validate token
                 var principal = _tokenValidator.ValidateToken(token, validationParameters, out _);
+                var email = principal.FindFirst(ClaimTypes.Name)!.Value;
 
                 // Set principal + token in Features collection
                 // They can be accessed from here later in the call chain
@@ -105,16 +106,17 @@ namespace IsolatedFunctionAuth.Middleware
                         {
                             string headerRoles = xUserRolesElement.GetString();
                             context.Features.Set(new JwtPrincipalFeature(principal, token, headerRoles));
+                            
                             await next(context);
-
                             return;
                         }
                     }
                 }
 
-                var email = principal.FindFirst(ClaimTypes.Name)!.Value;
-                var encodedRoles = GenerateXRolesHeader(GetUserRoles(email), email, _secretSalt);
+                var roles = GetUserRoles(email);
+                var encodedRoles = GenerateXRolesHeader(roles, email, _secretSalt);
                 context.Features.Set(new JwtPrincipalFeature(principal, token, encodedRoles));
+                context.Features.Set(new UserContextFeature(email, roles));
 
                 await next(context);
 
