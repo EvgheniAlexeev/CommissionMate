@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models.Responses
 {
-    public class CommissionRate
+    public class CommissionRateModel
     {
         public decimal Amount { get; set; }
     }

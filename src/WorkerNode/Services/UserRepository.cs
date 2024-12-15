@@ -7,9 +7,13 @@ namespace WorkerNode.Services
     {
         IEnumerable<string> GetUserRoles(string email);
 
-        CommissionPlanHeader GetCurrentPlan(string email);
+        CommissionPlanHeaderModel GetCurrentPlan(string email);
 
-        CommissionPlanDtailsByPeriod GetPlanDetails(string email, PlanDetails planDetails);
+        CommissionPlanHeaderModel GetConcretePlan(string email, GetPlanHeaderModel header);
+
+        IEnumerable<CommissionPlanHeaderModel> GetUserPlans(string email);
+
+        CommissionPlanDtailsByPeriodModel GetPlanDetails(string email, GetPlanDetailsModel planDetails);
     }
 
     public class UserRepository : IUserRepository
@@ -19,22 +23,50 @@ namespace WorkerNode.Services
             return ["sales", "admin"];
         }
 
-        public CommissionPlanHeader GetCurrentPlan(string email)
+        public CommissionPlanHeaderModel GetCurrentPlan(string email)
         {
-            return new CommissionPlanHeader
+            return new CommissionPlanHeaderModel
             {
-                Name = "PLANB_2025",
+                PlanName = "PLANB_2025",
                 AnnualPrime = 40000,
                 Currency = "£"
             };
         }
 
-        public CommissionPlanDtailsByPeriod GetPlanDetails(string email, PlanDetails planDetails)
+        public CommissionPlanHeaderModel GetConcretePlan(string email, GetPlanHeaderModel header)
+        {
+            return new CommissionPlanHeaderModel
+            {
+                PlanName = $"{header.FullName}",
+                AnnualPrime = 40000,
+                Currency = "£"
+            };
+        }
+
+        public IEnumerable<CommissionPlanHeaderModel> GetUserPlans(string email)
+        {
+            return [ new ()
+                {
+                    PlanName = "PLANB",
+                    AnnualPrime = 40000,
+                    CreatedAt = DateTime.Now,
+                    Currency = "£"
+                },
+                new (){
+                PlanName = "PLANA",
+                    AnnualPrime = 40000,
+                    CreatedAt = DateTime.Now.AddYears(-1),
+                    Currency = "£"
+                },
+            ];
+        }
+
+        public CommissionPlanDtailsByPeriodModel GetPlanDetails(string email, GetPlanDetailsModel planDetails)
         {
             return new()
             {
 
-                Period = new CommissionPlanPeriod
+                Period = new CommissionPlanPeriodModel
                 {
                     Year = "2025",
                     Period = Period.Q1,

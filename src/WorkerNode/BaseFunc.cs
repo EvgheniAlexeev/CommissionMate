@@ -2,6 +2,7 @@
 
 using Microsoft.Azure.Functions.Worker.Http;
 
+using System.Collections.Concurrent;
 using System.Net;
 using System.Text.Json;
 
@@ -9,24 +10,36 @@ namespace WorkerNode
 {
     public class BaseFunc
     {
-        public static readonly JsonSerializerOptions options = new JsonSerializerOptions
+        private static readonly ConcurrentDictionary<Type, JsonSerializerOptions> _cache = new();
+
+        private static JsonSerializerOptions CreateOptions<T>() where T : class
         {
-            PropertyNameCaseInsensitive = true
+            return new JsonSerializerOptions
+            {
+                Converters = { new CamelPascalCaseConverter<T>() , new IsoDateOnlyConverter() }
+            };
+        }
+
+        private static readonly JsonSerializerOptions GetIsoDateOnlyOptionc = new()
+        {
+            Converters = { new IsoDateOnlyConverter() }
         };
+
+
+        protected static JsonSerializerOptions GetOptions<T>() where T : class
+        {
+            return _cache.GetOrAdd(typeof(T), _ => CreateOptions<T>());
+        }
 
         protected T? GetRequestBody<T>(HttpRequestData request) where T : class
         {
             var body = request.ReadAsStringAsync().Result;
+            var options = GetOptions<T>();
 
-            var options = new JsonSerializerOptions
-            {
-                Converters = { new CamelPascalCaseConverter<T>() }
-            };
 
-            
             if (string.IsNullOrEmpty(body))
             {
-                return default;
+                return null;
             }
 
             return JsonSerializer.Deserialize<T>(body, options);
@@ -48,7 +61,7 @@ namespace WorkerNode
         {
             var response = request.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "application/json; charset=utf-8");
-            response.WriteString(JsonSerializer.Serialize(obj));
+            response.WriteString(JsonSerializer.Serialize(obj, GetIsoDateOnlyOptionc));
             return response;
         }
 

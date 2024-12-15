@@ -2,7 +2,7 @@
 
 namespace Domain.Models.Responses
 {
-    public class CommissionPlanDetails
+    public class CommissionPlanDetailsModel
     {
         public ComponentType ComponentType { get; set; }
 

@@ -10,7 +10,7 @@ namespace WorkerNode.Services
 {
     public interface IApiClient
     {
-        Task<IEnumerable<CommissionRate>?> GetCommissions(string email);
+        Task<IEnumerable<CommissionRateModel>?> GetCommissions(string email);
         Task<IEnumerable<WeatherForecast>?> GetWeatherForecast();
 
     }
@@ -25,11 +25,11 @@ namespace WorkerNode.Services
         private readonly IResponseHandler _responseHandler = responseHandler;
         private readonly IConnectionErrorNotificationService _connectionErrorNotificationService = connectionErrorNotificationService;
 
-        public async Task<IEnumerable<CommissionRate>?> GetCommissions(string email)
+        public async Task<IEnumerable<CommissionRateModel>?> GetCommissions(string email)
         {
             var response = await _apiHandler.ExecuteClientMethod(
                 _api,
-                async (x) => await x.GetForAppAsync<EmailRequest, ApiResponse<CommissionRate>>(
+                async (x) => await x.GetForAppAsync<EmailRequest, ApiResponse<CommissionRateModel>>(
                     AppConstants.PowerAutomateApiGetCommissions,
                     input: new EmailRequest() { EmailAddress = email }
                 ));

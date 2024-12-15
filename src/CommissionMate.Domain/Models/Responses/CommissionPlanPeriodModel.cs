@@ -2,7 +2,7 @@
 
 namespace Domain.Models.Responses
 {
-    public class CommissionPlanPeriod
+    public class CommissionPlanPeriodModel
     {
         public string Year { get; set; } = string.Empty;
 

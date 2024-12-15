@@ -1,8 +1,10 @@
 ﻿namespace Domain.Models.Responses
 {
-    public class CommissionPlanHeader
+    public class CommissionPlanHeaderModel
     {
-        public string Name { get; set; } = string.Empty;
+        public string PlanName { get; set; } = string.Empty;
+
+        public string FullPlanName => $"{PlanName}_{CreateOnYear}";
 
         public decimal AnnualPrime { get; set; } = 0;
 
