@@ -6,6 +6,6 @@
 
         public DateTime CreatedAt { get; set; } = DateTime.MinValue;
 
-        public string FullName => $"{Name}_{CreatedAt.Year.ToString()}";
+        public string FullName() { return $"{Name}_{CreatedAt.Year}"; }
     }
 }

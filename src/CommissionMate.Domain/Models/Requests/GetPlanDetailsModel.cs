@@ -9,6 +9,6 @@ namespace Domain.Models.Requests
 
         public Period PlanPeriod { get; set; }
 
-        public string PlanPeriodName => PlanPeriod.ToDescription();
+        public string PlanPeriodName () => PlanPeriod.ToDescription();
     }
 }

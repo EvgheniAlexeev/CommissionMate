@@ -14,6 +14,8 @@ namespace WorkerNode.Services
         IEnumerable<CommissionPlanHeaderModel> GetUserPlans(string email);
 
         CommissionPlanDetailsByPeriodModel GetPlanDetails(string email, GetPlanDetailsModel planDetails);
+
+        IEnumerable<CommissionPlanPayoutModel> GetCommissionPlanPayoutModel(string fullPlanName);
     }
 
     public class UserRepository : IUserRepository
@@ -112,6 +114,166 @@ namespace WorkerNode.Services
                 }
             ]
             };
+        }
+
+        public IEnumerable<CommissionPlanPayoutModel> GetCommissionPlanPayoutModel(string fullPlanName)
+        {
+            return [
+                new () {
+                    PayoutTableType = PayoutTableType.Annual,
+                    PayoutSourceSplits = [
+                        new() {
+                            PayoutSourceType = PayoutSourceType.Hardware,
+                            Split = 50
+                        },
+                        new() {
+                            PayoutSourceType = PayoutSourceType.Software,
+                            Split = 50
+                        }
+                    ],
+                    PayoutSources = [new()
+                    {
+                        PayoutSourceType = PayoutSourceType.Hardware,
+                        PayoutDetails = [
+                            new() {
+                                From = 0,
+                                To = 74,
+                                GeneralPayout = 0
+                            },
+                            new() {
+                                From = 75,
+                                To = 99,
+                                GeneralPayout = 50,
+                                ExtraPayout = 2
+                            },
+                            new() {
+                                From = 100,
+                                To = 124,
+                                GeneralPayout = 1,
+                                ExtraPayout = 0
+                            },
+                            new() {
+                                From = 125,
+                                To = 149,
+                                GeneralPayout = 125,
+                                ExtraPayout = 2
+                            },
+                            new() {
+                                From = 150,
+                                To = int.MaxValue,
+                                GeneralPayout = 175,
+                                ExtraPayout = 0.5m
+                            },
+                        ]
+                    },new()
+                    {
+                        PayoutSourceType = PayoutSourceType.Software,
+                        PayoutDetails = [
+                            new() {
+                                From = 0,
+                                To = 74,
+                                GeneralPayout = 0
+                            },
+                            new() {
+                                From = 75,
+                                To = 99,
+                                GeneralPayout = 25,
+                                ExtraPayout = 3
+                            },
+                            new() {
+                                From = 100,
+                                To = 124,
+                                GeneralPayout = 1,
+                                ExtraPayout = 0
+                            },
+                            new() {
+                                From = 125,
+                                To = 149,
+                                GeneralPayout = 125,
+                                ExtraPayout = 2
+                            },
+                            new() {
+                                From = 150,
+                                To = int.MaxValue,
+                                GeneralPayout = 175,
+                                ExtraPayout = 0.5m
+                            },
+                        ]
+                    },
+                    ]
+                },
+                new () {
+                    PayoutTableType = PayoutTableType.Quarterly,
+                    PayoutSourceSplits = [
+                        new() {
+                            PayoutSourceType = PayoutSourceType.Hardware,
+                            Split = 50
+                        },
+                        new() {
+                            PayoutSourceType = PayoutSourceType.Software,
+                            Split = 50
+                        }
+                    ],
+                    PayoutSources = [new()
+                    {
+                        PayoutSourceType = PayoutSourceType.Hardware,
+                        PayoutDetails = [
+                            new() {
+                                From = 0,
+                                To = 74,
+                                GeneralPayout = 0
+                            },
+                            new() {
+                                From = 75,
+                                To = 99,
+                                GeneralPayout = 50,
+                                ExtraPayout = 2
+                            },
+                            new() {
+                                From = 100,
+                                To = 149,
+                                GeneralPayout = 1,
+                                ExtraPayout = 0
+                            },
+                            new() {
+                                From = 150,
+                                To = int.MaxValue,
+                                GeneralPayout = 0,
+                                ExtraPayout = 0
+                            },
+                        ]
+                    },new()
+                    {
+                        PayoutSourceType = PayoutSourceType.Software,
+                        PayoutDetails = [
+                            new() {
+                                From = 0,
+                                To = 74,
+                                GeneralPayout = 0
+                            },
+                            new() {
+                                From = 75,
+                                To = 99,
+                                GeneralPayout = 25,
+                                ExtraPayout = 3
+                            },
+                            new() {
+                                From = 100,
+                                To = 149,
+                                GeneralPayout = 1,
+                                ExtraPayout = 0
+                            },
+                            new() {
+                                From = 150,
+                                To = int.MaxValue,
+                                GeneralPayout = 0,
+                                ExtraPayout = 0
+                            },
+                        ]
+                    },
+                    ]
+                },
+            ];
         }
     }
 }

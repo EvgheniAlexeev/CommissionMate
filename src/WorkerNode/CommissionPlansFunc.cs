@@ -36,12 +36,7 @@ namespace WorkerNode
             [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req,
             FunctionContext executionContext)
         {
-            var userContext = executionContext.Features.Get<UserContextFeature>();
-            if (userContext == null)
-            {
-                return CreateUnauthorizedResponse(req, "Unauthorized access!");
-            }
-
+            var userContext = executionContext.Features.Get<UserContextFeature>()!;
             var response = _repository.GetCurrentPlan(userContext.Email);
             return CreateJsonResponse(HttpStatusCode.OK, req, response);
         }
@@ -109,6 +104,30 @@ namespace WorkerNode
             var userContext = executionContext.Features.Get<UserContextFeature>()!;
 
             var response = _repository.GetPlanDetails(userContext.Email, request);
+            return CreateJsonResponse(HttpStatusCode.OK, req, response);
+        }
+
+        [Authorize(UserRoles = [UserRoles.Sales, UserRoles.Admin])]
+        [Function(nameof(GetPlanPayoutTables))]
+        [OpenApiOperation(operationId: nameof(GetPlanPayoutTables), tags: [CommissionPlansTag])]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(GetPlanHeaderModel), Description = "JSON payload with commission plan header information", Required = true)]
+        [OpenApiResponseWithBody(
+            statusCode: HttpStatusCode.OK,
+            contentType: "application/json",
+            bodyType: typeof(IEnumerable<CommissionPlanPayoutModel>),
+            Description = "OK response with payout plan Pay-out models (Quarterly and Annual)")]
+        public HttpResponseData GetPlanPayoutTables(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req,
+            FunctionContext executionContext)
+        {
+            var userContext = executionContext.Features.Get<UserContextFeature>()!;
+            var request = GetRequestBody<GetPlanHeaderModel>(req);
+            if (request == null)
+            {
+                return CreateBadRequestResponse(req);
+            }
+
+            var response = _repository.GetCommissionPlanPayoutModel(request.FullName());
             return CreateJsonResponse(HttpStatusCode.OK, req, response);
         }
     }
