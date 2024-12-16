@@ -12,7 +12,7 @@ namespace Domain.Models.Responses
 
         public IEnumerable<PayoutSourceSplitModel>? PayoutSourceSplits { get; set;}
 
-        public bool IsValidPayout =>
+        public bool IsValidPayout() =>
             PayoutSources != null 
             && PayoutSourceSplits != null 
             && PayoutSources.All(ps => PayoutSourceSplits.Select(pss => pss.PayoutSourceType).Contains(ps.PayoutSourceType));

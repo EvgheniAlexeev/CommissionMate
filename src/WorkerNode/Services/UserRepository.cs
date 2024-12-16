@@ -32,7 +32,7 @@ namespace WorkerNode.Services
                 PlanName = "PLANB",
                 AnnualPrime = 40000,
                 Currency = "£",
-                CreatedAt = DateTime.Now
+                CreatedOn = DateTime.Now
             };
         }
 
@@ -52,13 +52,13 @@ namespace WorkerNode.Services
                 {
                     PlanName = "PLANB",
                     AnnualPrime = 40000,
-                    CreatedAt = DateTime.Now,
+                    CreatedOn = DateTime.Now,
                     Currency = "£"
                 },
                 new (){
                 PlanName = "PLANA",
                     AnnualPrime = 40000,
-                    CreatedAt = DateTime.Now.AddYears(-1),
+                    CreatedOn = DateTime.Now.AddYears(-1),
                     Currency = "£"
                 },
             ];
