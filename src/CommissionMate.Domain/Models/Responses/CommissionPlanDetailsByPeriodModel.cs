@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models.Responses
 {
-    public class CommissionPlanDtailsByPeriodModel
+    public class CommissionPlanDetailsByPeriodModel
     {
         public CommissionPlanPeriodModel? Period { get; set; }
 

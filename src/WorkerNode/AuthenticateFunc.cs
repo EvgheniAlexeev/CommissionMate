@@ -26,7 +26,7 @@ namespace WorkerNode
             bodyType: typeof(string), 
             Description = "OK response in case of successful Authorization with 'x-user-roles' header")]
         public async Task<HttpResponseData> Authorize(
-            [HttpTrigger(AuthorizationLevel.User, "get", Route = null)] HttpRequestData req, 
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequestData req, 
             FunctionContext executionContext)
         {
             return CreateJsonResponse(HttpStatusCode.OK, req, "You were successfully athorized!");
@@ -35,7 +35,7 @@ namespace WorkerNode
         [Authorize(UserRoles = [UserRoles.Sales])]
         [Function(nameof(RunAuthorized))]
         public HttpResponseData RunAuthorized(
-            [HttpTrigger(AuthorizationLevel.User, "get", "post", Route = null)] HttpRequestData req, 
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequestData req, 
             FunctionContext executionContext)
         {
             var userContext = executionContext.Features.Get<UserContextFeature>();

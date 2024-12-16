@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
+using System.Collections.Concurrent;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
@@ -23,6 +24,7 @@ namespace IsolatedFunctionAuth.Middleware
     public class AuthenticationMiddleware : IFunctionsWorkerMiddleware
     {
         public static readonly string XUserRolesHeader = "X-User-Roles";
+        private static readonly ConcurrentBag<string> AllowedAnonymous = new() { "healthcheck", "swagger/ui", "/swagger.json" };
         private readonly JwtSecurityTokenHandler _tokenValidator;
         private readonly TokenValidationParameters _tokenValidationParameters;
         private readonly ConfigurationManager<OpenIdConnectConfiguration> _configurationManager;
@@ -57,13 +59,14 @@ namespace IsolatedFunctionAuth.Middleware
             }
         }
 
+        
         public async Task Invoke(
             FunctionContext context,
             FunctionExecutionDelegate next)
         {
             var request = await context.GetHttpRequestDataAsync();
             var url = request.Url.AbsolutePath.ToLower();
-            if (url.Contains("healthcheck") || url.EndsWith("swagger/ui") || url.EndsWith("/swagger.json"))
+            if (AllowedAnonymous.Any(a => url.Contains(a)))
             {
                 await next(context);
                 return;
@@ -113,13 +116,17 @@ namespace IsolatedFunctionAuth.Middleware
                     }
                 }
 
-                var roles = GetUserRoles(email);
-                var encodedRoles = GenerateXRolesHeader(roles, email, _secretSalt);
-                context.Features.Set(new JwtPrincipalFeature(principal, token, encodedRoles));
-                context.Features.Set(new UserContextFeature(email, roles));
+                IEnumerable<string>? roles = null;
+                string encodedRoles = string.Empty;
+                if (url.Contains("api/authorize"))
+                {
+                    roles = GetUserRoles(email);
+                    encodedRoles = GenerateXRolesHeader(roles, email, _secretSalt);
+                    context.Features.Set(new JwtPrincipalFeature(principal, token, encodedRoles));
+                    context.Features.Set(new UserContextFeature(email, roles));
+                }
 
                 await next(context);
-
                 context.GetHttpResponseData()?.Headers.Add(XUserRolesHeader, [encodedRoles]);
             }
             catch (SecurityTokenException)

@@ -33,7 +33,7 @@ namespace WorkerNode
             bodyType: typeof(CommissionPlanHeaderModel),
             Description = "OK response with user's current commission plan header data")]
         public HttpResponseData GetCurrentPlan(
-            [HttpTrigger(AuthorizationLevel.User, "get")] HttpRequestData req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req,
             FunctionContext executionContext)
         {
             var userContext = executionContext.Features.Get<UserContextFeature>();
@@ -55,7 +55,7 @@ namespace WorkerNode
             bodyType: typeof(IEnumerable<CommissionPlanHeaderModel>),
             Description = "OK response with user's commission plans")]
         public HttpResponseData GetUserCommissionPlans(
-            [HttpTrigger(AuthorizationLevel.User, "get")] HttpRequestData req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req,
             FunctionContext executionContext)
         {
             var userContext = executionContext.Features.Get<UserContextFeature>()!;
@@ -74,7 +74,7 @@ namespace WorkerNode
             bodyType: typeof(CommissionPlanHeaderModel),
             Description = "OK response with user's commission plan header data for a concrete year")]
         public HttpResponseData GetConcretePlan(
-            [HttpTrigger(AuthorizationLevel.User, "post")] HttpRequestData req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req,
             FunctionContext executionContext)
         {
             var request = GetRequestBody<GetPlanHeaderModel>(req);
@@ -95,10 +95,10 @@ namespace WorkerNode
         [OpenApiResponseWithBody(
             statusCode: HttpStatusCode.OK,
             contentType: "application/json",
-            bodyType: typeof(CommissionPlanDtailsByPeriodModel),
+            bodyType: typeof(CommissionPlanDetailsByPeriodModel),
             Description = "OK response with user's commission plan header data for a concrete year")]
         public HttpResponseData GetPlanDetails(
-            [HttpTrigger(AuthorizationLevel.User, "post")] HttpRequestData req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req,
             FunctionContext executionContext)
         {
             var request = GetRequestBody<GetPlanDetailsModel>(req);

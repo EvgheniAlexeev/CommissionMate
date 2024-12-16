@@ -13,7 +13,7 @@ namespace WorkerNode.Services
 
         IEnumerable<CommissionPlanHeaderModel> GetUserPlans(string email);
 
-        CommissionPlanDtailsByPeriodModel GetPlanDetails(string email, GetPlanDetailsModel planDetails);
+        CommissionPlanDetailsByPeriodModel GetPlanDetails(string email, GetPlanDetailsModel planDetails);
     }
 
     public class UserRepository : IUserRepository
@@ -27,9 +27,10 @@ namespace WorkerNode.Services
         {
             return new CommissionPlanHeaderModel
             {
-                PlanName = "PLANB_2025",
+                PlanName = "PLANB",
                 AnnualPrime = 40000,
-                Currency = "£"
+                Currency = "£",
+                CreatedAt = DateTime.Now
             };
         }
 
@@ -61,7 +62,7 @@ namespace WorkerNode.Services
             ];
         }
 
-        public CommissionPlanDtailsByPeriodModel GetPlanDetails(string email, GetPlanDetailsModel planDetails)
+        public CommissionPlanDetailsByPeriodModel GetPlanDetails(string email, GetPlanDetailsModel planDetails)
         {
             return new()
             {
