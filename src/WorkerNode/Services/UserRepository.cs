@@ -7,6 +7,8 @@ namespace WorkerNode.Services
     {
         IEnumerable<string> GetUserRoles(string email);
 
+        UserCommissionAnualPrimeModel GetUserCommissionAnualPrime(string email);
+
         CommissionPlanHeaderModel GetCurrentPlan(string email);
 
         CommissionPlanHeaderModel GetConcretePlan(string email, GetPlanHeaderModel header);
@@ -25,13 +27,20 @@ namespace WorkerNode.Services
             return ["sales", "admin"];
         }
 
+
+        public UserCommissionAnualPrimeModel GetUserCommissionAnualPrime(string email)
+        {
+            return new()
+            {
+                AnnualPrime = 80,
+                Currency = "£",
+            };
+        }
         public CommissionPlanHeaderModel GetCurrentPlan(string email)
         {
             return new CommissionPlanHeaderModel
             {
                 PlanName = "PLANB",
-                AnnualPrime = 40000,
-                Currency = "£",
                 CreatedOn = DateTime.Now
             };
         }
@@ -40,9 +49,8 @@ namespace WorkerNode.Services
         {
             return new CommissionPlanHeaderModel
             {
-                PlanName = $"{header.FullName}",
-                AnnualPrime = 40000,
-                Currency = "£"
+                PlanName = $"{header.PlanName}",
+                CreatedOn = DateTime.Now
             };
         }
 
@@ -51,15 +59,11 @@ namespace WorkerNode.Services
             return [ new ()
                 {
                     PlanName = "PLANB",
-                    AnnualPrime = 40000,
                     CreatedOn = DateTime.Now,
-                    Currency = "£"
                 },
                 new (){
                 PlanName = "PLANA",
-                    AnnualPrime = 40000,
                     CreatedOn = DateTime.Now.AddYears(-1),
-                    Currency = "£"
                 },
             ];
         }
@@ -121,19 +125,10 @@ namespace WorkerNode.Services
             return [
                 new () {
                     PayoutTableType = PayoutTableType.Annual,
-                    PayoutSourceSplits = [
-                        new() {
-                            PayoutSourceType = PayoutSourceType.Hardware,
-                            Split = 50
-                        },
-                        new() {
-                            PayoutSourceType = PayoutSourceType.Software,
-                            Split = 50
-                        }
-                    ],
                     PayoutSources = [new()
                     {
                         PayoutSourceType = PayoutSourceType.Hardware,
+                        Split = 50,
                         PayoutDetails = [
                             new() {
                                 From = 0,
@@ -168,6 +163,7 @@ namespace WorkerNode.Services
                     },new()
                     {
                         PayoutSourceType = PayoutSourceType.Software,
+                        Split = 50,
                         PayoutDetails = [
                             new() {
                                 From = 0,
@@ -204,19 +200,10 @@ namespace WorkerNode.Services
                 },
                 new () {
                     PayoutTableType = PayoutTableType.Quarterly,
-                    PayoutSourceSplits = [
-                        new() {
-                            PayoutSourceType = PayoutSourceType.Hardware,
-                            Split = 50
-                        },
-                        new() {
-                            PayoutSourceType = PayoutSourceType.Software,
-                            Split = 50
-                        }
-                    ],
                     PayoutSources = [new()
                     {
                         PayoutSourceType = PayoutSourceType.Hardware,
+                        Split = 50,
                         PayoutDetails = [
                             new() {
                                 From = 0,
@@ -245,6 +232,7 @@ namespace WorkerNode.Services
                     },new()
                     {
                         PayoutSourceType = PayoutSourceType.Software,
+                        Split = 50,
                         PayoutDetails = [
                             new() {
                                 From = 0,

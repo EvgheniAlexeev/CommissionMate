@@ -6,7 +6,9 @@ namespace Domain.Models.Responses
     {
         public PayoutSourceType PayoutSourceType { get; set; }
 
-        public string PayoutSourceTypeDescription => PayoutSourceType.ToDescription();
+        public string PayoutSourceTypeDescription() => PayoutSourceType.ToDescription();
+
+        public decimal Split { get; set; }
 
         public IEnumerable<PayoutDetailsModel>? PayoutDetails { get; set; }
     }

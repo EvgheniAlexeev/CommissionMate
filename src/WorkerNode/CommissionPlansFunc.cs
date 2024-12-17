@@ -23,7 +23,25 @@ namespace WorkerNode
         private readonly ILogger<AuthenticateFunc> _logger = logger;
         private readonly IApiClient _apiClient = apiClient;
         private readonly IUserRepository _repository = repository;
-     
+
+        [Authorize(UserRoles = [UserRoles.Sales, UserRoles.Admin])]
+        [Function(nameof(GetUserAnnualPrime))]
+        [OpenApiOperation(operationId: nameof(GetUserAnnualPrime), tags: [CommissionPlansTag])]
+        [OpenApiResponseWithBody(
+            statusCode: HttpStatusCode.OK,
+            contentType: "application/json",
+            bodyType: typeof(UserCommissionAnualPrimeModel),
+            Description = "OK response with amount of the user's annual prime")]
+        public HttpResponseData GetUserAnnualPrime(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req,
+            FunctionContext executionContext)
+        {
+            var userContext = executionContext.Features.Get<UserContextFeature>()!;
+            var response = _repository.GetUserCommissionAnualPrime(userContext.Email);
+            return CreateJsonResponse(HttpStatusCode.OK, req, response);
+        }
+
+
         [Authorize(UserRoles = [UserRoles.Sales, UserRoles.Admin])]
         [Function(nameof(GetCurrentPlan))]
         [OpenApiOperation(operationId: nameof(GetCurrentPlan), tags: [CommissionPlansTag])]
