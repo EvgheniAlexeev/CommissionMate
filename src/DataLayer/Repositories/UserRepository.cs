@@ -1,7 +1,8 @@
-﻿using Domain.Models.Requests;
+﻿using Domain.Models;
+using Domain.Models.Requests;
 using Domain.Models.Responses;
 
-namespace WorkerNode.Services
+namespace DataLayer.Repositories
 {
     public interface IUserRepository
     {
@@ -32,7 +33,7 @@ namespace WorkerNode.Services
         {
             return new()
             {
-                AnnualPrime = 80,
+                AnnualPrime = 40000,
                 Currency = "£",
             };
         }
@@ -76,7 +77,7 @@ namespace WorkerNode.Services
                 Period = new CommissionPlanPeriodModel
                 {
                     Year = "2025",
-                    Period = Period.Q1,
+                    Period = QuarterPeriod.Q1,
                     IsQtrFinished = true
                 },
                 Details = [new()
@@ -124,73 +125,73 @@ namespace WorkerNode.Services
         {
             return [
                 new () {
-                    PayoutTableType = PayoutTableType.Annual,
+                    PayoutPeriodType = PayoutPeriodType.Annual,
                     PayoutSources = [new()
                     {
-                        PayoutSourceType = PayoutSourceType.Hardware,
-                        Split = 50,
+                        PayoutComponentType = PayoutComponentType.Hardware,
+                        Split = 40,
                         PayoutDetails = [
                             new() {
-                                From = 0,
-                                To = 74,
+                                PerformanceFrom = 0,
+                                PerformanceTo = 74,
                                 GeneralPayout = 0
                             },
                             new() {
-                                From = 75,
-                                To = 99,
-                                GeneralPayout = 50,
-                                ExtraPayout = 2
+                                PerformanceFrom = 75,
+                                PerformanceTo = 99,
+                                GeneralPayout = 25,
+                                ExtraPayout = 3
                             },
                             new() {
-                                From = 100,
-                                To = 124,
+                                PerformanceFrom = 100,
+                                PerformanceTo = 124,
                                 GeneralPayout = 1,
                                 ExtraPayout = 0
                             },
                             new() {
-                                From = 125,
-                                To = 149,
+                                PerformanceFrom = 125,
+                                PerformanceTo = 149,
                                 GeneralPayout = 125,
                                 ExtraPayout = 2
                             },
                             new() {
-                                From = 150,
-                                To = int.MaxValue,
+                                PerformanceFrom = 150,
+                                PerformanceTo = int.MaxValue,
                                 GeneralPayout = 175,
                                 ExtraPayout = 0.5m
                             },
                         ]
                     },new()
                     {
-                        PayoutSourceType = PayoutSourceType.Software,
-                        Split = 50,
+                        PayoutComponentType = PayoutComponentType.Software,
+                        Split = 60,
                         PayoutDetails = [
                             new() {
-                                From = 0,
-                                To = 74,
+                                PerformanceFrom = 0,
+                                PerformanceTo = 74,
                                 GeneralPayout = 0
                             },
                             new() {
-                                From = 75,
-                                To = 99,
+                                PerformanceFrom = 75,
+                                PerformanceTo = 99,
                                 GeneralPayout = 25,
                                 ExtraPayout = 3
                             },
                             new() {
-                                From = 100,
-                                To = 124,
+                                PerformanceFrom = 100,
+                                PerformanceTo = 124,
                                 GeneralPayout = 1,
                                 ExtraPayout = 0
                             },
                             new() {
-                                From = 125,
-                                To = 149,
+                                PerformanceFrom = 125,
+                                PerformanceTo = 149,
                                 GeneralPayout = 125,
                                 ExtraPayout = 2
                             },
                             new() {
-                                From = 150,
-                                To = int.MaxValue,
+                                PerformanceFrom = 150,
+                                PerformanceTo = int.MaxValue,
                                 GeneralPayout = 175,
                                 ExtraPayout = 0.5m
                             },
@@ -199,61 +200,61 @@ namespace WorkerNode.Services
                     ]
                 },
                 new () {
-                    PayoutTableType = PayoutTableType.Quarterly,
+                    PayoutPeriodType = PayoutPeriodType.Quarterly,
                     PayoutSources = [new()
                     {
-                        PayoutSourceType = PayoutSourceType.Hardware,
-                        Split = 50,
+                        PayoutComponentType = PayoutComponentType.Hardware,
+                        Split = 40,
                         PayoutDetails = [
                             new() {
-                                From = 0,
-                                To = 74,
+                                PerformanceFrom = 0,
+                                PerformanceTo = 74,
                                 GeneralPayout = 0
                             },
                             new() {
-                                From = 75,
-                                To = 99,
-                                GeneralPayout = 50,
-                                ExtraPayout = 2
+                                PerformanceFrom = 75,
+                                PerformanceTo = 99,
+                                GeneralPayout = 25,
+                                ExtraPayout = 3
                             },
                             new() {
-                                From = 100,
-                                To = 149,
+                                PerformanceFrom = 100,
+                                PerformanceTo = 149,
                                 GeneralPayout = 1,
                                 ExtraPayout = 0
                             },
                             new() {
-                                From = 150,
-                                To = int.MaxValue,
+                                PerformanceFrom = 150,
+                                PerformanceTo = int.MaxValue,
                                 GeneralPayout = 0,
                                 ExtraPayout = 0
                             },
                         ]
                     },new()
                     {
-                        PayoutSourceType = PayoutSourceType.Software,
-                        Split = 50,
+                        PayoutComponentType = PayoutComponentType.Software,
+                        Split = 60,
                         PayoutDetails = [
                             new() {
-                                From = 0,
-                                To = 74,
+                                PerformanceFrom = 0,
+                                PerformanceTo = 74,
                                 GeneralPayout = 0
                             },
                             new() {
-                                From = 75,
-                                To = 99,
+                                PerformanceFrom = 75,
+                                PerformanceTo = 99,
                                 GeneralPayout = 25,
                                 ExtraPayout = 3
                             },
                             new() {
-                                From = 100,
-                                To = 149,
+                                PerformanceFrom = 100,
+                                PerformanceTo = 149,
                                 GeneralPayout = 1,
                                 ExtraPayout = 0
                             },
                             new() {
-                                From = 150,
-                                To = int.MaxValue,
+                                PerformanceFrom = 150,
+                                PerformanceTo = int.MaxValue,
                                 GeneralPayout = 0,
                                 ExtraPayout = 0
                             },

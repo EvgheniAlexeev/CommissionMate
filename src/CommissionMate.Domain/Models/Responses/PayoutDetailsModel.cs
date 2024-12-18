@@ -2,9 +2,9 @@
 {
     public class PayoutDetailsModel
     {
-        public decimal From { get; set; } = 0;
+        public decimal PerformanceFrom { get; set; } = 0;
 
-        public decimal To { get; set; } = 0;
+        public decimal PerformanceTo { get; set; } = 0;
 
         public decimal GeneralPayout { get; set; } = 0;
 

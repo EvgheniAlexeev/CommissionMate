@@ -4,12 +4,12 @@ namespace Domain.Models.Responses
 {
     public class PayoutSourceModel
     {
-        public PayoutSourceType PayoutSourceType { get; set; }
+        public PayoutComponentType PayoutComponentType { get; set; }
 
-        public string PayoutSourceTypeDescription() => PayoutSourceType.ToDescription();
+        public string PayoutComponentTypeDescription() => PayoutComponentType.ToDescription();
 
         public decimal Split { get; set; }
 
-        public IEnumerable<PayoutDetailsModel>? PayoutDetails { get; set; }
+        public IEnumerable<PayoutDetailsModel> PayoutDetails { get; set; } = [];
     }
 }

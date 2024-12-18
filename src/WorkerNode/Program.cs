@@ -22,6 +22,8 @@ using Microsoft.OpenApi.Models;
 using WorkerNode.Middleware;
 using WorkerNode.Extensions;
 using Polly;
+using DataLayer.Repositories;
+using WorkerNode.Providers;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(worker =>
@@ -54,6 +56,7 @@ var host = new HostBuilder()
         services.ConfigureFunctionsApplicationInsights();
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ICommissionProvider, CommissionProvider>();
 
         services.AddMicrosoftIdentityWebAppAuthentication(configuration, nameof(AzureAd))
                 .EnableTokenAcquisitionToCallDownstreamApi()

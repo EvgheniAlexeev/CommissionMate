@@ -26,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommissionMate.Domain\Domain.csproj" />
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
     <ProjectReference Include="..\Smtp.Infrastructure\Smtp.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>

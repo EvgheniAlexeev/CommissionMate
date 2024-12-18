@@ -1,6 +1,6 @@
-﻿namespace Domain.Models.Responses
+﻿namespace Domain.Models
 {
-    public enum Period
+    public enum QuarterPeriod
     {
         Q1 = 1,
         Q2 = 2,

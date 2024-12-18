@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkerNode", "src\WorkerNod
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommissionMate", "src\CommissionMate\CommissionMate.csproj", "{22EACBE7-E578-4D18-97D7-513C6C3F0701}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\CommissionMate.Domain\Domain.csproj", "{3B66BC8C-068C-4205-8B54-0DB84EFE0AFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\CommissionMate.Domain\Domain.csproj", "{3B66BC8C-068C-4205-8B54-0DB84EFE0AFD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smtp.Infrastructure", "src\Smtp.Infrastructure\Smtp.Infrastructure.csproj", "{0646B1C1-FBB9-459A-99C4-7CE53AE57EAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "src\DataLayer\DataLayer.csproj", "{6B20F3AB-7F52-4459-99CC-52D7B2F0E0BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0646B1C1-FBB9-459A-99C4-7CE53AE57EAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0646B1C1-FBB9-459A-99C4-7CE53AE57EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0646B1C1-FBB9-459A-99C4-7CE53AE57EAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B20F3AB-7F52-4459-99CC-52D7B2F0E0BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B20F3AB-7F52-4459-99CC-52D7B2F0E0BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B20F3AB-7F52-4459-99CC-52D7B2F0E0BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B20F3AB-7F52-4459-99CC-52D7B2F0E0BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

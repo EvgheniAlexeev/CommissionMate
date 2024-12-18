@@ -4,10 +4,10 @@ namespace Domain.Models.Responses
 {
     public class CommissionPlanPayoutModel
     {
-        public PayoutTableType PayoutTableType { get; set; }
+        public PayoutPeriodType PayoutPeriodType { get; set; }
 
-        public string PayoutTableTypeDescription() => PayoutTableType.ToDescription();
+        public string PayoutTableTypeDescription() => PayoutPeriodType.ToDescription();
 
-        public IEnumerable<PayoutSourceModel>? PayoutSources { get; set;} 
+        public IEnumerable<PayoutSourceModel> PayoutSources { get; set;} = [];
     }
 }

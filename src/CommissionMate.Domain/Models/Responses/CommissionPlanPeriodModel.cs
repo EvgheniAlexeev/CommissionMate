@@ -6,7 +6,7 @@ namespace Domain.Models.Responses
     {
         public string Year { get; set; } = string.Empty;
 
-        public Period Period { get; set; }
+        public QuarterPeriod Period { get; set; }
 
         public string PeriodOfYear => $"{Year}-{Period.ConvertToString()}";
 

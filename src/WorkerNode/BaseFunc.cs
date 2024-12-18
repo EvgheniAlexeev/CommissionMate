@@ -57,7 +57,7 @@ namespace WorkerNode
 
         protected HttpResponseData CreateJsonResponse(HttpStatusCode statusCode,
             HttpRequestData request,
-            object obj)
+            object? obj)
         {
             var response = request.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "application/json; charset=utf-8");

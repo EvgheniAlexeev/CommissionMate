@@ -1,5 +1,4 @@
 ﻿using Domain.Extensions;
-using Domain.Models.Responses;
 
 namespace Domain.Models.Requests
 {
@@ -7,7 +6,7 @@ namespace Domain.Models.Requests
     {
         public string FullPlanName { get; set; } = string.Empty;
 
-        public Period PlanPeriod { get; set; }
+        public QuarterPeriod PlanPeriod { get; set; }
 
         public string PlanPeriodName () => PlanPeriod.ToDescription();
     }

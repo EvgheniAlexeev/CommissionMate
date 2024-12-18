@@ -1,4 +1,6 @@
-﻿using Domain.Models.Requests;
+﻿using DataLayer.Repositories;
+
+using Domain.Models.Requests;
 using Domain.Models.Responses;
 
 using Microsoft.Azure.Functions.Worker;
@@ -10,6 +12,7 @@ using System.Net;
 
 using WorkerNode.Authorization;
 using WorkerNode.Middleware;
+using WorkerNode.Providers;
 using WorkerNode.Services;
 
 namespace WorkerNode
@@ -17,12 +20,14 @@ namespace WorkerNode
     public class CommissionPlansFunc(
         ILogger<AuthenticateFunc> logger,
         IApiClient apiClient,
-        IUserRepository repository) : BaseFunc
+        IUserRepository repository,
+        ICommissionProvider commissionProvider) : BaseFunc
     {
         public const string CommissionPlansTag = "Azure Function Commissions Calculator";
         private readonly ILogger<AuthenticateFunc> _logger = logger;
         private readonly IApiClient _apiClient = apiClient;
         private readonly IUserRepository _repository = repository;
+        private readonly ICommissionProvider _commissionProvider = commissionProvider;
 
         [Authorize(UserRoles = [UserRoles.Sales, UserRoles.Admin])]
         [Function(nameof(GetUserAnnualPrime))]
@@ -146,6 +151,30 @@ namespace WorkerNode
             }
 
             var response = _repository.GetCommissionPlanPayoutModel(request.FullName());
+            return CreateJsonResponse(HttpStatusCode.OK, req, response);
+        }
+
+        //[Authorize(UserRoles = [UserRoles.Sales, UserRoles.Admin])]
+        [Function(nameof(CalculateCommissionQuarterly))]
+        [OpenApiOperation(operationId: nameof(CalculateCommissionQuarterly), tags: [CommissionPlansTag])]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(GetQuarterlyCalculatedCommissionModel), Description = "JSON payload with commission plan header information", Required = true)]
+        [OpenApiResponseWithBody(
+            statusCode: HttpStatusCode.OK,
+            contentType: "application/json",
+            bodyType: typeof(IEnumerable<QuarterlyCalculatedCommissionModel>),
+            Description = "OK response with quarterly calculated commission")]
+        public HttpResponseData CalculateCommissionQuarterly(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req,
+            FunctionContext executionContext)
+        {
+            var userContext = executionContext.Features.Get<UserContextFeature>()!;
+            var request = GetRequestBody<GetQuarterlyCalculatedCommissionModel>(req);
+            if (request == null)
+            {
+                return CreateBadRequestResponse(req);
+            }
+
+            var response = _commissionProvider.CalculateQuarterCommission(request, userContext.Email);
             return CreateJsonResponse(HttpStatusCode.OK, req, response);
         }
     }
