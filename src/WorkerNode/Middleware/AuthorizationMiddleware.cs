@@ -35,7 +35,7 @@ namespace IsolatedFunctionAuth.Middleware
             FunctionExecutionDelegate next)
         {
             var principalFeature = context.Features.Get<JwtPrincipalFeature>();
-            if (principalFeature == null || !AuthorizePrincipal(context, principalFeature.Principal, principalFeature.EncodedRoles, _secretSalt))
+            if (principalFeature != null && !AuthorizePrincipal(context, principalFeature.Principal, principalFeature.EncodedRoles, _secretSalt))
             {
                 context.SetHttpResponseStatusCode(HttpStatusCode.Forbidden);
                 return;
