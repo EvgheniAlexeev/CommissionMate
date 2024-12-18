@@ -154,14 +154,14 @@ namespace WorkerNode
             return CreateJsonResponse(HttpStatusCode.OK, req, response);
         }
 
-        //[Authorize(UserRoles = [UserRoles.Sales, UserRoles.Admin])]
+        [Authorize(UserRoles = [UserRoles.Sales, UserRoles.Admin])]
         [Function(nameof(CalculateCommissionQuarterly))]
         [OpenApiOperation(operationId: nameof(CalculateCommissionQuarterly), tags: [CommissionPlansTag])]
-        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(GetQuarterlyCalculatedCommissionModel), Description = "JSON payload with commission plan header information", Required = true)]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(GetQuarterlyCalculatedCommissionModel), Description = "JSON payload with gross profit and a component quota information", Required = true)]
         [OpenApiResponseWithBody(
             statusCode: HttpStatusCode.OK,
             contentType: "application/json",
-            bodyType: typeof(IEnumerable<QuarterlyCalculatedCommissionModel>),
+            bodyType: typeof(QuarterlyCalculatedCommissionModel),
             Description = "OK response with quarterly calculated commission")]
         public HttpResponseData CalculateCommissionQuarterly(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req,
@@ -175,6 +175,30 @@ namespace WorkerNode
             }
 
             var response = _commissionProvider.CalculateQuarterCommission(request, userContext.Email);
+            return CreateJsonResponse(HttpStatusCode.OK, req, response);
+        }
+
+        [Authorize(UserRoles = [UserRoles.Sales, UserRoles.Admin])]
+        [Function(nameof(CalculateAnnualCommission))]
+        [OpenApiOperation(operationId: nameof(CalculateAnnualCommission), tags: [CommissionPlansTag])]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(GetAnnualCalculatedCommissionModel), Description = "JSON payload with gross profit and annual component quota maps", Required = true)]
+        [OpenApiResponseWithBody(
+            statusCode: HttpStatusCode.OK,
+            contentType: "application/json",
+            bodyType: typeof(AnnualCalculatedCommissionModel),
+            Description = "OK response with annually calculated commission and estimated pay-out balance")]
+        public HttpResponseData CalculateAnnualCommission(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req,
+            FunctionContext executionContext)
+        {
+            var userContext = executionContext.Features.Get<UserContextFeature>()!;
+            var request = GetRequestBody<GetAnnualCalculatedCommissionModel>(req);
+            if (request == null)
+            {
+                return CreateBadRequestResponse(req);
+            }
+
+            var response = _commissionProvider.CalculateAnnualCommission(request, userContext.Email);
             return CreateJsonResponse(HttpStatusCode.OK, req, response);
         }
     }
