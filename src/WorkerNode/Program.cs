@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 
 using Smtp.Infrastructure;
@@ -56,6 +58,18 @@ var host = new HostBuilder()
         services.AddSingleton<IOpenApiConfigurationOptions>(_ =>
             new OpenApiConfigurationOptions
             {
+                Info = new OpenApiInfo
+                {
+                    Title = "Commission Calc API",
+                    Version = "1.0.0",
+                    Description = "API for Insight Commission Calc",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Amdaris",
+                        Email = "evgheni.alexeev@amdaris.com",
+                        Url = new Uri("https://amdaris.com"),
+                    }
+                },
                 OpenApiVersion = OpenApiVersionType.V3
             });
 
