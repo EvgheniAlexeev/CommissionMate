@@ -20,9 +20,9 @@ namespace Domain.Models.Responses
 
         public decimal Quota { get; set; } = 0;
 
-        public decimal Performance { get; set; } = 0;
+        public decimal PerformancePercent { get; set; } = 0;
 
-        public decimal PayOut { get; set; } = 0;
+        public decimal PayOutPercent { get; set; } = 0;
 
         public string ReviewedBy { get; set; } = string.Empty;
 

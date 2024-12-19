@@ -61,7 +61,6 @@ namespace IsolatedFunctionAuth.Middleware
             }
         }
 
-        
         public async Task Invoke(
             FunctionContext context,
             FunctionExecutionDelegate next)

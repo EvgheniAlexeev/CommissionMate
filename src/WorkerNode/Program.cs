@@ -1,29 +1,32 @@
 
+using DataLayer.Repositories;
+
 using Domain;
 using Domain.Configurations;
 
 using IsolatedFunctionAuth.Middleware;
 
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Configurations;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Identity.Web;
-
-using Smtp.Infrastructure.Services;
-using Smtp.Infrastructure;
-
-using WorkerNode.Services;
-using WorkerNode.Handlers;
-using WorkerNode.Azure.Web;
 using Microsoft.Extensions.Options;
-using WorkerNode.Azure.Models;
+using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
-using WorkerNode.Middleware;
+
+using Smtp.Infrastructure;
+using Smtp.Infrastructure.Services;
+
+using WorkerNode.Azure.Models;
+using WorkerNode.Azure.Web;
 using WorkerNode.Extensions;
-using Polly;
-using DataLayer.Repositories;
+using WorkerNode.Handlers;
+using WorkerNode.Middleware;
 using WorkerNode.Providers;
+using WorkerNode.Services;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(worker =>
@@ -46,8 +49,15 @@ var host = new HostBuilder()
 
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Commission Calc API", Version = "v1" });
+            c.IgnoreObsoleteProperties();
         });
+
+        services.AddSingleton<IOpenApiConfigurationOptions>(_ =>
+            new OpenApiConfigurationOptions
+            {
+                OpenApiVersion = OpenApiVersionType.V3
+            });
 
         services.AddSingleton(configuration);
         services.Configure<AzureAd>(configuration.GetSection(nameof(AzureAd)));
@@ -55,7 +65,7 @@ var host = new HostBuilder()
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
 
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserRepository, UserRepositoryStub>();
         services.AddScoped<ICommissionProvider, CommissionProvider>();
 
         services.AddMicrosoftIdentityWebAppAuthentication(configuration, nameof(AzureAd))

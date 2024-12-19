@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Domain.Models.Responses
+namespace Domain.Models
 {
     public enum Metric
     {
@@ -11,3 +11,4 @@ namespace Domain.Models.Responses
         DeliveredRevenue,
     }
 }
+

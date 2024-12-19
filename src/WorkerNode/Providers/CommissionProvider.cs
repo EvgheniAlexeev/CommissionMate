@@ -15,12 +15,12 @@ namespace WorkerNode.Providers
     {
         QuarterlyCalculatedCommissionModel? CalculateQuarterCommission(
             GetQuarterlyCalculatedCommissionModel qcCommission,
-            string email, GetPlanHeaderModel? plan = null);
+            string email, string? planName = null);
 
         AnnualCalculatedCommissionModel CalculateAnnualCommission(
             GetAnnualCalculatedCommissionModel request,
             string email,
-            GetPlanHeaderModel? plan = null);
+            string? planName = null);
     }
 
     public class CommissionProvider(IUserRepository userRepository) : ICommissionProvider
@@ -30,9 +30,9 @@ namespace WorkerNode.Providers
 
         public QuarterlyCalculatedCommissionModel? CalculateQuarterCommission(
             GetQuarterlyCalculatedCommissionModel qcCommission,
-            string email, GetPlanHeaderModel? plan = null)
+            string email, string? planName = null)
         {
-            var fullPlanName = GetFullPlanName(email, plan);
+            var fullPlanName = GetFullPlanName(email, planName);
             var anualPrime = _userRepository.GetUserCommissionAnualPrime(email);
             var comPayoutPlan = _userRepository.GetCommissionPlanPayoutModel(fullPlanName);
 
@@ -75,9 +75,9 @@ namespace WorkerNode.Providers
         public AnnualCalculatedCommissionModel CalculateAnnualCommission(
             GetAnnualCalculatedCommissionModel acCommission,
             string email,
-            GetPlanHeaderModel? plan = null)
+            string? planName = null)
         {
-            var fullPlanName = GetFullPlanName(email, plan);
+            var fullPlanName = GetFullPlanName(email, planName);
             var userAnualPrime = _userRepository.GetUserCommissionAnualPrime(email);
             var comPayoutPlan = _userRepository.GetCommissionPlanPayoutModel(fullPlanName);
 
@@ -167,12 +167,12 @@ namespace WorkerNode.Providers
 
         }
 
-        private string GetFullPlanName(string email, GetPlanHeaderModel? plan)
+        private string GetFullPlanName(string email, string? planName)
         {
-            var fullPlanName = plan?.FullName() ?? _userRepository.GetCurrentPlan(email).FullPlanName();
-            if (plan != null)
+            var fullPlanName = planName ?? _userRepository.GetCurrentPlan(email).FullPlanName;
+            if (planName != null)
             {
-                fullPlanName = _userRepository.GetConcretePlan(email, plan).FullPlanName();
+                fullPlanName = _userRepository.GetConcretePlan(email, fullPlanName).FullPlanName;
 
             }
             return fullPlanName;

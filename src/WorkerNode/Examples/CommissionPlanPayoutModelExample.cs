@@ -1,131 +1,21 @@
-﻿using Domain.Models;
-using Domain.Models.Requests;
+﻿using DataLayer.Repositories;
+
+using Domain.Models;
 using Domain.Models.Responses;
 
-using System.Runtime.CompilerServices;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 
-namespace DataLayer.Repositories
+using Newtonsoft.Json.Serialization;
+
+namespace WorkerNode.Examples
 {
-    public interface IUserRepository
+    public class CommissionPlanPayoutModelExample : OpenApiExample<IEnumerable<CommissionPlanPayoutModel>>
     {
-        IEnumerable<string> GetUserRoles(string email);
-
-        UserCommissionAnualPrimeModel GetUserCommissionAnualPrime(string email);
-
-        CommissionPlanHeaderModel GetCurrentPlan(string email);
-
-        CommissionPlanHeaderModel GetConcretePlan(string email, GetPlanHeaderModel header);
-
-        IEnumerable<CommissionPlanHeaderModel> GetUserPlans(string email);
-
-        CommissionPlanDetailsByPeriodModel GetPlanDetails(string email, GetPlanDetailsModel planDetails);
-
-        IEnumerable<CommissionPlanPayoutModel> GetCommissionPlanPayoutModel(string fullPlanName);
-    }
-
-    public class UserRepository : IUserRepository
-    {
-        public IEnumerable<string> GetUserRoles(string email)
+        public override IOpenApiExample<IEnumerable<CommissionPlanPayoutModel>> Build(NamingStrategy namingStrategy = null)
         {
-            return ["sales", "admin"];
-        }
-
-
-        public UserCommissionAnualPrimeModel GetUserCommissionAnualPrime(string email)
-        {
-            return new()
-            {
-                AnnualPrime = 40000,
-                Currency = "£",
-            };
-        }
-        public CommissionPlanHeaderModel GetCurrentPlan(string email)
-        {
-            return new CommissionPlanHeaderModel
-            {
-                PlanName = "PLANB",
-                CreatedOn = DateTime.Now
-            };
-        }
-
-        public CommissionPlanHeaderModel GetConcretePlan(string email, GetPlanHeaderModel header)
-        {
-            return new CommissionPlanHeaderModel
-            {
-                PlanName = $"{header.PlanName}",
-                CreatedOn = DateTime.Now
-            };
-        }
-
-        public IEnumerable<CommissionPlanHeaderModel> GetUserPlans(string email)
-        {
-            return [ new ()
-                {
-                    PlanName = "PLANB",
-                    CreatedOn = DateTime.Now,
-                },
-                new (){
-                PlanName = "PLANA",
-                    CreatedOn = DateTime.Now.AddYears(-1),
-                },
-            ];
-        }
-
-        public CommissionPlanDetailsByPeriodModel GetPlanDetails(string email, GetPlanDetailsModel planDetails)
-        {
-            return new()
-            {
-
-                Period = new CommissionPlanPeriodModel
-                {
-                    Year = "2025",
-                    Period = QuarterPeriod.Q1,
-                    IsQtrFinished = true
-                },
-                Details = [new()
-                {
-                    EstimatedPayOut = 2700,
-                    ActualPayOut = 3330,
-                    ComponentType = ComponentType.Hardware,
-                    Metric = Metric.GP,
-                    TotalForQtr = 163274,
-                    Quota = 180000,
-                    Performance = 90,
-                    PayOut = 111,
-                    ReviewedBy = "D Melody",
-                    ApprovedBy = "M Dolan"
-                },
-                new() {
-                    EstimatedPayOut = 8280,
-                    ActualPayOut = 3330,
-                    ComponentType = ComponentType.Software,
-                    Metric = Metric.GP,
-                    TotalForQtr = 497383,
-                    Quota = 180000,
-                    Performance = 276,
-                    PayOut = 111,
-                    ReviewedBy = "D Melody",
-                    ApprovedBy = "M Dolan"
-                },
-                new() {
-                    EstimatedPayOut = 2490,
-                    ActualPayOut = 2400,
-                    ComponentType = ComponentType.Solutions,
-                    Metric = Metric.DeliveredRevenue,
-                    TotalForQtr = 50000,
-                    Quota = 60000,
-                    Performance = 83,
-                    PayOut = 80,
-                    ReviewedBy = "D Melody",
-                    ApprovedBy = "M Dolan"
-                }
-            ]
-            };
-        }
-
-        public IEnumerable<CommissionPlanPayoutModel> GetCommissionPlanPayoutModel(string fullPlanName)
-        {
-            return [
+            IEnumerable<CommissionPlanPayoutModel> ex =
+            [
                 new () {
                     PayoutPeriodType = PayoutPeriodType.Annual,
                     PayoutSources = [new()
@@ -328,6 +218,14 @@ namespace DataLayer.Repositories
                     ]
                 },
             ];
+
+            Examples.Add(OpenApiExampleResolver.Resolve(
+                "GetPlanByNamePlanNameExample",
+                ex,
+                namingStrategy
+            ));
+
+            return this;
         }
     }
 }
