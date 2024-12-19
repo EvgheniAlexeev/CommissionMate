@@ -8,7 +8,7 @@ namespace Domain.Models.Responses
 
         public QuarterPeriod Period { get; set; }
 
-        public string PeriodOfYear => $"{Year}-{Period.ConvertToString()}";
+        public string PeriodOfYear => $"{Year}-{Period.ToDescription()}";
 
         public bool IsQtrFinished { get; set; }
     }

@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace Domain.Extensions
 {
     public static class EnumExtension
     {
-        public static string? ConvertToString<T>(this T ev) where T : Enum
-        {
-            return Enum.GetName(typeof(T), ev);
-        }
-
         public static T ConverToEnum<T>(this string enumValue) where T : Enum
         {
             return (T)Enum.Parse(typeof(T), enumValue);
@@ -32,6 +22,13 @@ namespace Domain.Extensions
             }
 
             return enumValue.ToString();
+        }
+
+        public static Dictionary<int, string> EnumToDictionary<T>() where T : Enum
+        {
+            return Enum
+                .GetValues(typeof(T)).Cast<T>()
+                .ToDictionary(x => Convert.ToInt32(x), x => x.ToDescription());
         }
     }
 }

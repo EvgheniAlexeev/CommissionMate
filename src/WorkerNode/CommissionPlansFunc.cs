@@ -1,11 +1,14 @@
 ﻿using DataLayer.Repositories;
 
+using Domain.Extensions;
+using Domain.Models;
 using Domain.Models.Requests;
 using Domain.Models.Responses;
 
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 using Microsoft.Extensions.Logging;
 
 using System.Net;
@@ -28,6 +31,57 @@ namespace WorkerNode
         private readonly IApiClient _apiClient = apiClient;
         private readonly IUserRepository _repository = repository;
         private readonly ICommissionProvider _commissionProvider = commissionProvider;
+
+        [Function(nameof(GetQuarterPeriods))]
+        [OpenApiOperation(operationId: nameof(GetQuarterPeriods), tags: [CommissionPlansTag])]
+        [OpenApiResponseWithBody(
+            statusCode: HttpStatusCode.OK,
+            contentType: "application/json",
+            bodyType: typeof(QuarterPeriodsDict),
+            Description = "OK response with set of period types")]
+        public HttpResponseData GetQuarterPeriods(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req,
+            FunctionContext executionContext)
+        {
+            var response = new QuarterPeriodsDict();
+            response.AddRange(EnumExtension.EnumToDictionary<QuarterPeriod>());
+
+            return CreateJsonResponse(HttpStatusCode.OK, req, response);
+        }
+
+        [Function(nameof(GetPayoutPeriodTypes))]
+        [OpenApiOperation(operationId: nameof(GetPayoutPeriodTypes), tags: [CommissionPlansTag])]
+        [OpenApiResponseWithBody(
+            statusCode: HttpStatusCode.OK,
+            contentType: "application/json",
+            bodyType: typeof(PayoutPeriodTypesDict),
+            Description = "OK response with set of possible pay-out period types")]
+        public HttpResponseData GetPayoutPeriodTypes(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req,
+            FunctionContext executionContext)
+        {
+            var response = new PayoutPeriodTypesDict();
+            response.AddRange(EnumExtension.EnumToDictionary<PayoutPeriodType>());
+
+            return CreateJsonResponse(HttpStatusCode.OK, req, response);
+        }
+
+        [Function(nameof(GetPayoutComponentTypes))]
+        [OpenApiOperation(operationId: nameof(GetPayoutComponentTypes), tags: [CommissionPlansTag])]
+        [OpenApiResponseWithBody(
+            statusCode: HttpStatusCode.OK,
+            contentType: "application/json",
+            bodyType: typeof(PayoutComponentTypeDict),
+            Description = "OK response with set of possible pay-out component types")]
+        public HttpResponseData GetPayoutComponentTypes(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req,
+            FunctionContext executionContext)
+        {
+            var response = new PayoutPeriodTypesDict();
+            response.AddRange(EnumExtension.EnumToDictionary<PayoutComponentType>());
+
+            return CreateJsonResponse(HttpStatusCode.OK, req, response);
+        }
 
         [Authorize(UserRoles = [UserRoles.Sales, UserRoles.Admin])]
         [Function(nameof(GetUserAnnualPrime))]
