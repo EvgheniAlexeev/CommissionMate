@@ -2,6 +2,8 @@
 using Domain.Models.Requests;
 using Domain.Models.Responses;
 
+using System.Runtime.CompilerServices;
+
 namespace DataLayer.Repositories
 {
     public interface IUserRepository
@@ -180,7 +182,7 @@ namespace DataLayer.Repositories
                             new() {
                                 PerformanceFrom = 100,
                                 PerformanceTo = 124,
-                                GeneralPayout = 100,
+                                IsLinearGeneralPayout = true,
                                 ExtraPayout = 0
                             },
                             new() {
@@ -216,7 +218,7 @@ namespace DataLayer.Repositories
                             new() {
                                 PerformanceFrom = 100,
                                 PerformanceTo = 149,
-                                GeneralPayout = 100,
+                                IsLinearGeneralPayout = true,
                                 ExtraPayout = 0
                             },
                             new() {
@@ -285,7 +287,7 @@ namespace DataLayer.Repositories
                             new() {
                                 PerformanceFrom = 100,
                                 PerformanceTo = 149,
-                                GeneralPayout = 100,
+                                IsLinearGeneralPayout = true,
                                 ExtraPayout = 0
                             },
                             new() {
@@ -314,7 +316,7 @@ namespace DataLayer.Repositories
                             new() {
                                 PerformanceFrom = 100,
                                 PerformanceTo = 149,
-                                GeneralPayout = 100,
+                                IsLinearGeneralPayout = true,
                             },
                             new() {
                                 PerformanceFrom = 150,

@@ -8,6 +8,8 @@
 
         public decimal GeneralPayout { get; set; } = 0;
 
+        public bool IsLinearGeneralPayout = false;
+
         public decimal ExtraPayout { get; set; } = 0;
     }
 }

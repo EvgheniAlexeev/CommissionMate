@@ -50,6 +50,11 @@ namespace WorkerNode.Providers
             decimal payoutPercentage = 0;
             if (payout != null)
             {
+                if (payout.IsLinearGeneralPayout)
+                {
+                    payout.GeneralPayout = performance;
+                }
+
                 payoutPercentage = payout.GeneralPayout + (performance - payout.PerformanceFrom) * payout.ExtraPayout;
                 return new()
                 {
@@ -113,36 +118,54 @@ namespace WorkerNode.Providers
             decimal payoutPercentage = 0;
             if (annualOverralPayout != null)
             {
+                if (annualOverralPayout.IsLinearGeneralPayout)
+                {
+                    annualOverralPayout.GeneralPayout = overralAnnualPerformance;
+                }
+
                 payoutPercentage = annualOverralPayout.GeneralPayout + (overralAnnualPerformance - annualOverralPayout.PerformanceFrom) * annualOverralPayout.ExtraPayout;
 
                 var aComponentPrimeVal = 0m;
+                Dictionary<string, decimal> quarterlyEstimatedPayout= [];
+                Dictionary<string, decimal> quarterlyPayoutPercent = [];
+
                 foreach (var quarterlyPayout in quarterlyPayoutMap)
                 {
                     if (quarterlyPayout.Value != null)
                     {
+                        if (quarterlyPayout.Value.IsLinearGeneralPayout)
+                        {
+                            quarterlyPayout.Value.GeneralPayout = quarterlyPerformanceMap[quarterlyPayout.Key];
+                        }
+
                         var qPercent = quarterlyPayout.Value.GeneralPayout + (quarterlyPerformanceMap[quarterlyPayout.Key] - quarterlyPayout.Value.PerformanceFrom) * quarterlyPayout.Value.ExtraPayout;
 
                         aComponentPrimeVal += qComponentPrime * qPercent / OneHundred;
+                        quarterlyEstimatedPayout
+                            .Add(quarterlyPayout.Key.ToDescription(), qComponentPrime * qPercent / OneHundred);
+                        quarterlyPayoutPercent
+                            .Add(quarterlyPayout.Key.ToDescription(), qPercent);
                     }
                 }
 
                 return new()
                 {
-                    EstimatedAnnualPayout = aComponentPrime * payoutPercentage / OneHundred,
-                    PerformancePercent = overralAnnualPerformance,
-                    EstimatedPayoutBalance = aComponentPrime * payoutPercentage / OneHundred - aComponentPrimeVal,
+                    EstimatedAnnualPayout = aComponentPrime * overralAnnualPerformance / OneHundred,
+                    AnnualPerformancePercent = overralAnnualPerformance,
+                    EstimatedPayoutBalance = aComponentPrime * overralAnnualPerformance / OneHundred - aComponentPrimeVal,
                     PayoutComponentType = acCommission.PayoutComponentType.ToDescription(),
                     ExtraPayoutPercent = annualOverralPayout.ExtraPayout,
                     GeneralPayoutPercent = annualOverralPayout.GeneralPayout,
                     PerformanceFrom = annualOverralPayout.PerformanceFrom,
                     PerformanceTo = annualOverralPayout.PerformanceTo,
+                    QuarterlyEstimatedPayoutMap = quarterlyEstimatedPayout,
+                    QuarterlyPayoutPercentMap = quarterlyPayoutPercent,
                 };
             }
 
             return null;
 
         }
-
 
         private string GetFullPlanName(string email, GetPlanHeaderModel? plan)
         {
