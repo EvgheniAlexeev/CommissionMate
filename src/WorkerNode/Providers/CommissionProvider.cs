@@ -13,12 +13,12 @@ namespace WorkerNode.Providers
 {
     public interface ICommissionProvider
     {
-        QuarterlyCalculatedCommissionModel? CalculateQuarterCommission(
-            GetQuarterlyCalculatedCommissionModel qcCommission,
+        Task<QuarterlyCalculatedCommissionModel?> CalculateQuarterCommission(
+            GetQuarterlyCalculatedCommissionRequestModel qcCommission,
             string email, string? planName = null);
 
-        AnnualCalculatedCommissionModel CalculateAnnualCommission(
-            GetAnnualCalculatedCommissionModel request,
+        Task<AnnualCalculatedCommissionModel> CalculateAnnualCommission(
+            GetAnnualCalculatedCommissionRequestModel request,
             string email,
             string? planName = null);
     }
@@ -28,13 +28,13 @@ namespace WorkerNode.Providers
         private readonly IUserRepository _userRepository = userRepository;
         private static readonly decimal OneHundred = 100;
 
-        public QuarterlyCalculatedCommissionModel? CalculateQuarterCommission(
-            GetQuarterlyCalculatedCommissionModel qcCommission,
+        public async Task<QuarterlyCalculatedCommissionModel?> CalculateQuarterCommission(
+            GetQuarterlyCalculatedCommissionRequestModel qcCommission,
             string email, string? planName = null)
         {
-            var fullPlanName = GetFullPlanName(email, planName);
-            var anualPrime = _userRepository.GetUserCommissionAnualPrime(email);
-            var comPayoutPlan = _userRepository.GetCommissionPlanPayoutModel(fullPlanName);
+            var fullPlanName = await GetFullPlanName(email, planName);
+            var anualPrime = await _userRepository.GetUserCommissionAnualPrime(email);
+            var comPayoutPlan = await _userRepository.GetCommissionPlanPayoutModel(fullPlanName);
 
             var qComPayoutPlan = comPayoutPlan.Where(cp => cp.PayoutPeriodType == PayoutPeriodType.Quarterly).Single();
             var performance = qcCommission.GrossProfit / qcCommission.QuarterlyComponentQuota * OneHundred;
@@ -72,14 +72,14 @@ namespace WorkerNode.Providers
             return null;
         }
 
-        public AnnualCalculatedCommissionModel CalculateAnnualCommission(
-            GetAnnualCalculatedCommissionModel acCommission,
+        public async Task<AnnualCalculatedCommissionModel> CalculateAnnualCommission(
+            GetAnnualCalculatedCommissionRequestModel acCommission,
             string email,
             string? planName = null)
         {
-            var fullPlanName = GetFullPlanName(email, planName);
-            var userAnualPrime = _userRepository.GetUserCommissionAnualPrime(email);
-            var comPayoutPlan = _userRepository.GetCommissionPlanPayoutModel(fullPlanName);
+            var fullPlanName = await GetFullPlanName(email, planName);
+            var userAnualPrime = await _userRepository.GetUserCommissionAnualPrime(email);
+            var comPayoutPlan = await _userRepository.GetCommissionPlanPayoutModel(fullPlanName);
 
             var aComPayoutPlan = comPayoutPlan.Where(cp => cp.PayoutPeriodType == PayoutPeriodType.Annual).Single();
             var qComPayoutPlan = comPayoutPlan.Where(cp => cp.PayoutPeriodType == PayoutPeriodType.Quarterly).Single();
@@ -167,12 +167,12 @@ namespace WorkerNode.Providers
 
         }
 
-        private string GetFullPlanName(string email, string? planName)
+        private async Task<string> GetFullPlanName(string email, string? planName)
         {
-            var fullPlanName = planName ?? _userRepository.GetCurrentPlan(email).FullPlanName;
+            var fullPlanName = planName ?? (await _userRepository.GetCurrentPlan(email)).FullPlanName;
             if (planName != null)
             {
-                fullPlanName = _userRepository.GetConcretePlan(email, fullPlanName).FullPlanName;
+                fullPlanName = (await _userRepository.GetConcretePlan(fullPlanName)).FullPlanName;
 
             }
             return fullPlanName;

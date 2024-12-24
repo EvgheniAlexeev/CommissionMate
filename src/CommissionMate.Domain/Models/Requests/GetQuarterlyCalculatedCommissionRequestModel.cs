@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models.Requests
 {
-    public class GetQuarterlyCalculatedCommissionModel
+    public class GetQuarterlyCalculatedCommissionRequestModel
     {
         public decimal GrossProfit { get; set; } = 0;
 

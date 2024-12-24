@@ -5,13 +5,14 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 
 using Newtonsoft.Json.Serialization;
 
-namespace WorkerNode.Examples
+namespace WorkerNode.Examples.Requests
 {
-    public class GetPlanHeaderModelExample : OpenApiExample<GetPlanHeaderModel>
+    public class GetPlanHeaderRequestModelExample 
+        : OpenApiExample<GetPlanHeaderRequestModel>
     {
-        public override IOpenApiExample<GetPlanHeaderModel> Build(NamingStrategy namingStrategy = null)
+        public override IOpenApiExample<GetPlanHeaderRequestModel> Build(NamingStrategy? namingStrategy = null)
         {
-            var ex = new GetPlanHeaderModel();
+            var ex = new GetPlanHeaderRequestModel();
             ex.FullName = $"PLANA_{DateTime.UtcNow.Year}";
 
             if (!Examples.TryGetValue("GetPlanHeaderModelExample", out _))

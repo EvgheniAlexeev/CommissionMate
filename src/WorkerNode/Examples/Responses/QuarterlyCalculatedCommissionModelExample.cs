@@ -7,9 +7,10 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 
 using Newtonsoft.Json.Serialization;
 
-namespace WorkerNode.Examples
+namespace WorkerNode.Examples.Responses
 {
-    public class QuarterlyCalculatedCommissionModelExample : OpenApiExample<QuarterlyCalculatedCommissionModel>
+    public class QuarterlyCalculatedCommissionModelExample 
+        : OpenApiExample<QuarterlyCalculatedCommissionModel>
     {
         public override IOpenApiExample<QuarterlyCalculatedCommissionModel> Build(NamingStrategy namingStrategy = null)
         {

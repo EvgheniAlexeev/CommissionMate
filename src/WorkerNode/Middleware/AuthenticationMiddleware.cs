@@ -121,7 +121,7 @@ namespace IsolatedFunctionAuth.Middleware
                 string encodedRoles = string.Empty;
                 if (url.Contains("api/authorize"))
                 {
-                    roles = GetUserRoles(email);
+                    roles = await GetUserRoles(email);
                     encodedRoles = GenerateXRolesHeader(roles, email, _secretSalt);
                     context.Features.Set(new JwtPrincipalFeature(principal, token, encodedRoles));
                     context.Features.Set(new UserContextFeature(email, roles));
@@ -172,9 +172,9 @@ namespace IsolatedFunctionAuth.Middleware
             return true;
         }
 
-        private IEnumerable<string> GetUserRoles(string email)
+        private async Task<IEnumerable<string>> GetUserRoles(string email)
         {
-            return  _repository.GetUserRoles(email);
+            return  await _repository.GetUserRoles(email);
         }
 
         private string GenerateXRolesHeader(IEnumerable<string> userRoles, string email, string secretKey)

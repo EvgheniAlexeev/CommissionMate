@@ -6,9 +6,10 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 
 using Newtonsoft.Json.Serialization;
 
-namespace WorkerNode.Examples
+namespace WorkerNode.Examples.Responses
 {
-    public class CommissionPlanDetailsByPeriodModelExample : OpenApiExample<CommissionPlanDetailsByPeriodModel>
+    public class CommissionPlanDetailsByPeriodModelExample 
+        : OpenApiExample<CommissionPlanDetailsByPeriodModel>
     {
         public override IOpenApiExample<CommissionPlanDetailsByPeriodModel> Build(NamingStrategy namingStrategy = null)
         {

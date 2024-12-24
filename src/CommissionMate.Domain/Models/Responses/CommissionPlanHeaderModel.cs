@@ -11,7 +11,7 @@ namespace Domain.Models.Responses
         /// <summary>
         /// Type of this property can be modified to int because we need only 'Year' part
         /// </summary>
-        public DateTime CreatedOn { get; set; } = DateTime.MinValue;
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow.Date;
 
         public string CreateOnYear => CreatedOn.Year.ToString();
 

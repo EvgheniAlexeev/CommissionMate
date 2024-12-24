@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models.Requests
 {
-    public class GetPlanHeaderModel
+    public class GetPlanHeaderRequestModel
     {
         public string FullName { get; set; } = string.Empty;
     }

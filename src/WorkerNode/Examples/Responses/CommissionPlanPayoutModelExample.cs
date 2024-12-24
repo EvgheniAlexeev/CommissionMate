@@ -8,9 +8,10 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 
 using Newtonsoft.Json.Serialization;
 
-namespace WorkerNode.Examples
+namespace WorkerNode.Examples.Responses
 {
-    public class CommissionPlanPayoutModelExample : OpenApiExample<IEnumerable<CommissionPlanPayoutModel>>
+    public class CommissionPlanPayoutModelExample 
+        : OpenApiExample<IEnumerable<CommissionPlanPayoutModel>>
     {
         public override IOpenApiExample<IEnumerable<CommissionPlanPayoutModel>> Build(NamingStrategy namingStrategy = null)
         {
@@ -220,7 +221,7 @@ namespace WorkerNode.Examples
             ];
 
             Examples.Add(OpenApiExampleResolver.Resolve(
-                "GetPlanByNamePlanNameExample",
+                "CommissionPlanPayoutModelExample",
                 ex,
                 namingStrategy
             ));

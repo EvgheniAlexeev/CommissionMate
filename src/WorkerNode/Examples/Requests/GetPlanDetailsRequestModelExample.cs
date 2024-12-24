@@ -6,14 +6,15 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 
 using Newtonsoft.Json.Serialization;
 
-namespace WorkerNode.Examples
+namespace WorkerNode.Examples.Requests
 {
-    public class GetPlanDetailsModelExample : OpenApiExample<GetPlanDetailsModel>
+    public class GetPlanDetailsRequestModelExample 
+        : OpenApiExample<GetPlanDetailsRequestModel>
     {
-        public override IOpenApiExample<GetPlanDetailsModel> Build(NamingStrategy namingStrategy = null)
+        public override IOpenApiExample<GetPlanDetailsRequestModel> Build(NamingStrategy? namingStrategy = null)
         {
             Examples.Add(OpenApiExampleResolver.Resolve("Sample",
-                 new GetPlanDetailsModel()
+                 new GetPlanDetailsRequestModel()
                  {
                      FullPlanName = $"PLANA_{DateTime.UtcNow.Year}",
                      PlanPeriod = QuarterPeriod.Q1,

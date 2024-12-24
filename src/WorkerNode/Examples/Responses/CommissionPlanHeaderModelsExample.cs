@@ -5,9 +5,10 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 
 using Newtonsoft.Json.Serialization;
 
-namespace WorkerNode.Examples
+namespace WorkerNode.Examples.Responses
 {
-    public class CommissionPlanHeaderModelsExample : OpenApiExample<IEnumerable<CommissionPlanHeaderModel>>
+    public class CommissionPlanHeaderModelsExample 
+        : OpenApiExample<IEnumerable<CommissionPlanHeaderModel>>
     {
         public override IOpenApiExample<IEnumerable<CommissionPlanHeaderModel>> Build(NamingStrategy namingStrategy = null)
         {

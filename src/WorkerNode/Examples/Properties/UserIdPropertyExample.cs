@@ -3,16 +3,15 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 
 using Newtonsoft.Json.Serialization;
 
-namespace WorkerNode.Examples
+namespace WorkerNode.Examples.Properties
 {
-    public class GetPlanByNamePlanNameExample : OpenApiExample<string>
+    public class UserIdPropertyExample : OpenApiExample<string>
     {
         public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null)
         {
-            var ex = $"PLANA_{DateTime.UtcNow.Year}";
-
+            var ex = "firstname.lastname@insight.com";
             Examples.Add(OpenApiExampleResolver.Resolve(
-                "GetPlanByNamePlanNameExample",
+                "UserIdExample",
                 ex,
                 namingStrategy
             ));

@@ -1,20 +1,20 @@
-﻿using Domain.Models.Responses;
+﻿using Domain.Models.Requests;
 
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 
 using Newtonsoft.Json.Serialization;
 
-namespace WorkerNode.Examples
+namespace WorkerNode.Examples.Requests
 {
-    public class CommissionPlanHeaderModelExample : OpenApiExample<CommissionPlanHeaderModel>
+    public class AssignCommissionPlanHeaderRequestModelExample 
+        : OpenApiExample<AssignCommissionPlanHeaderRequestModel>
     {
-        public override IOpenApiExample<CommissionPlanHeaderModel> Build(NamingStrategy namingStrategy = null)
+        public override IOpenApiExample<AssignCommissionPlanHeaderRequestModel> Build(NamingStrategy? namingStrategy = null)
         {
-            var ex = new CommissionPlanHeaderModel();
-            ex.PlanName = "PLANA";
-            ex.CreatedOn = DateTime.UtcNow.Date;
-            ex.AutomateScriptUri = "https://automated.scripts.some_uri";
+            var ex = new AssignCommissionPlanHeaderRequestModel();
+            ex.FullPlanName = "PLANA_2025";
+            ex.AssignedDate = DateTime.UtcNow.Date;
 
             if (!Examples.TryGetValue("CommissionPlanHeaderModelExample", out _))
             {

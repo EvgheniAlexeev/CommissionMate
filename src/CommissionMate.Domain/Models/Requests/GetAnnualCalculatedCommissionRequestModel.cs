@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models.Requests
 {
-    public class GetAnnualCalculatedCommissionModel
+    public class GetAnnualCalculatedCommissionRequestModel
     {
         public decimal AnnualGrossProfit() => AnnualComponentQuarterGPMap.Values.Sum();
 

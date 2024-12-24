@@ -2,7 +2,7 @@
 
 namespace Domain.Models.Requests
 {
-    public class GetPlanDetailsModel
+    public class GetPlanDetailsRequestModel
     {
         public string FullPlanName { get; set; } = string.Empty;
 

@@ -1,4 +1,6 @@
-﻿using Domain.Models.JsonConvertor;
+﻿using Azure.Core;
+
+using Domain.Models.JsonConvertor;
 
 using Microsoft.Azure.Functions.Worker.Http;
 
@@ -36,7 +38,6 @@ namespace WorkerNode
             var body = request.ReadAsStringAsync().Result;
             var options = GetOptions<T>();
 
-
             if (string.IsNullOrEmpty(body))
             {
                 return null;
@@ -65,11 +66,11 @@ namespace WorkerNode
             return response;
         }
 
-        protected HttpResponseData CreateUnauthorizedResponse(HttpRequestData request, string text)
+        protected HttpResponseData CreateUnauthorizedResponse(HttpRequestData request, string message)
         {
             var response = request.CreateResponse(HttpStatusCode.Unauthorized);
-            response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
-            response.WriteString(text);
+            response.Headers.Add("Content-Type", "application/json; charset=utf-8");
+            response.WriteString(JsonSerializer.Serialize(new { ErrorMessage = message}));
 
             return response;
         }

@@ -6,13 +6,13 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
 
 using Newtonsoft.Json.Serialization;
 
-namespace WorkerNode.Examples
+namespace WorkerNode.Examples.Requests
 {
-    public class GetQuarterlyCalculatedCommissionModelExample : OpenApiExample<GetQuarterlyCalculatedCommissionModel>
+    public class GetQuarterlyCalculatedCommissionRequestModelExample : OpenApiExample<GetQuarterlyCalculatedCommissionRequestModel>
     {
-        public override IOpenApiExample<GetQuarterlyCalculatedCommissionModel> Build(NamingStrategy namingStrategy = null)
+        public override IOpenApiExample<GetQuarterlyCalculatedCommissionRequestModel> Build(NamingStrategy? namingStrategy = null)
         {
-            var ex = new GetQuarterlyCalculatedCommissionModel();
+            var ex = new GetQuarterlyCalculatedCommissionRequestModel();
             ex.QuarterPeriod = QuarterPeriod.Q1;
             ex.GrossProfit = 80000;
             ex.QuarterlyComponentQuota = 100000;
